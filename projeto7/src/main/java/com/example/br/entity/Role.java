@@ -24,11 +24,13 @@ public class Role {
 	public Role() {
 	}
 
-	public Role(Long id, String name) {
+	
+	public Role(String name, StatusRole status) {
 		super();
-		this.id = id;
 		this.name = name;
+		this.status = status;
 	}
+
 
 	public Long getId() {
 		return id;

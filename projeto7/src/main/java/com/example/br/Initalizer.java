@@ -1,5 +1,7 @@
 package com.example.br;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -23,22 +25,37 @@ public class Initalizer implements ApplicationListener<ContextRefreshedEvent> {
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-
-		Role r1 = new Role();
-		r1.setName("Admin");
-		r1.setStatus(StatusRole.ATIVO);
-		Role r2 = new Role();
-		r2.setName("Aluno");
-		r2.setStatus(StatusRole.INATIVO);
 		
-		this.roleRepository.save(r1);
-		this.roleRepository.save(r2);
+//		for (int i = 0; i < 1000; i++) {
+//			saveRole("Admin",StatusRole.ATIVO);
+//		}
+//		
+//		for (int i = 0; i < 1000; i++) {
+//			saveRole("Aluno",StatusRole.INATIVO);
+//		}
+//	
+		//Paginação 
+//		PageRequest page = PageRequest.of(10,10);
+//		Page<Role> roles = this.roleRepository.findAll(page);
+//		for (Role role : roles) {
+//			System.out.println(role.getName());
+//		}
 		
-		User user1 = new User();
-		user1.setName("Wemerson");
-		user1.setEmail("wemerson@gmail.com");
-		user1.setRole(r1);
 		
-		this.userRepository.save(user1);
+		saveRole("Admin",StatusRole.ATIVO);
+		List<User> users = this.userRepository.findAll();
+		for(User user: users) {
+			System.out.println(user);
+		}
+	}
+	
+	public void saveRole(String name, StatusRole status) {
+		Role role = new Role(name,status);
+		saveUser("Wemerson","wemerson@gmail.com",role);
+		//this.roleRepository.save(role);
+	}
+	
+	public void saveUser(String name, String email, Role role) {
+		this.userRepository.save(new User(name,email,role));
 	}
 }
